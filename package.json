@@ -1,0 +1,14 @@
+{
+  "name": "paybypaypal",
+  "version": "1.0.0",
+  "description": "简单跨境收款页面 - PayPal Smart Buttons",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1"
+  }
+}

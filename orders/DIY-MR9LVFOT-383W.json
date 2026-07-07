@@ -1,0 +1,33 @@
+{
+  "orderId": "DIY-MR9LVFOT-383W",
+  "depositStatus": "COMPLETED",
+  "balanceStatus": "COMPLETED",
+  "createdAt": "2026-07-06T19:21:07.395Z",
+  "updatedAt": "2026-07-06T19:22:41.026Z",
+  "depositAmount": "45.00",
+  "depositPaidAt": "2026-07-06T19:21:17.047Z",
+  "payerInfo": {
+    "email": "sb-wcg8451973170@personal.example.com",
+    "name": "John Doe",
+    "payerId": "BGRCNHDDZDTK2"
+  },
+  "paypalAddress": {
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "country": "C2"
+  },
+  "shipping": {
+    "name": "sdfgbhn",
+    "phone": "sdfvbnm",
+    "email": "sdcfvbnm",
+    "address": "sdfgbhnm,",
+    "city": "sdfvgbnm,",
+    "state": "sdfgbnm",
+    "zip": "sdfghn",
+    "country": "US"
+  },
+  "balanceAmount": "20.00",
+  "balancePaidAt": "2026-07-06T19:22:27.399Z"
+}

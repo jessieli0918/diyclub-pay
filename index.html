@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIYCLUB - Secure Checkout</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <!-- ====== Header ====== -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="white" opacity="0.15"/>
+          <path d="M16 6C13.5 6 11 8 11 11C11 14 16 20 16 20C16 20 21 14 21 11C21 8 18.5 6 16 6ZM16 13C14.9 13 14 12.1 14 11C14 9.9 14.9 9 16 9C17.1 9 18 9.9 18 11C18 12.1 17.1 13 16 13Z" fill="white"/>
+          <path d="M22 20C22 17.5 19.5 15 16 15C12.5 15 10 17.5 10 20V26H22V20Z" fill="white" opacity="0.8"/>
+          <circle cx="16" cy="11" r="2.5" fill="white"/>
+        </svg>
+        <span class="logo-text">DIYCLUB</span>
+      </div>
+      <div class="logo-domain">diyclub.fyi</div>
+    </div>
+  </header>
+
+  <!-- ====== Main ====== -->
+  <main class="container">
+
+    <!-- Trust Badges -->
+    <div class="trust-badge">
+      <span>🔒 SSL Secured</span>
+      <span>🌐 PayPal Protected</span>
+      <span>💳 Credit / Debit Cards</span>
+      <span>🍎 Apple Pay</span>
+    </div>
+
+    <h1 class="page-title">Complete Your Payment</h1>
+    <p class="page-desc">Pay deposit + balance in one go. Need help? Chat with us anytime.</p>
+
+    <!-- ====== Steps Indicator ====== -->
+    <div class="steps" id="steps-bar">
+      <div class="step active" id="step1">
+        <div class="step-num">1</div>
+        <div class="step-label">Pay Deposit</div>
+      </div>
+      <div class="step-line" id="step-line-1"></div>
+      <div class="step" id="step2">
+        <div class="step-num">2</div>
+        <div class="step-label">Pay Balance</div>
+      </div>
+      <div class="step-line" id="step-line-2"></div>
+      <div class="step" id="step3">
+        <div class="step-num">3</div>
+        <div class="step-label">Done ✓</div>
+      </div>
+    </div>
+
+    <!-- ====== Payment Cards (Side by Side) ====== -->
+    <div class="payment-wrapper">
+      <!-- Deposit Card -->
+      <div class="payment-card" id="deposit-card">
+        <div class="card-header">
+          <span class="card-icon">💰</span>
+          <div>
+            <h2>Step 1: Deposit</h2>
+            <p class="card-sub">Secure deposit to confirm your order</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="deposit-amount-display">
+            <span class="amount-label">Deposit Amount</span>
+            <span class="amount-value">$45.00</span>
+          </div>
+          <p class="deposit-hint">📦 Free shipping on orders over $45</p>
+          <div id="deposit-button-container" class="paypal-button-container"></div>
+          <div id="deposit-result" class="result-message"></div>
+        </div>
+      </div>
+
+      <!-- Balance Card -->
+      <div class="payment-card" id="balance-card">
+        <div class="card-header">
+          <span class="card-icon">💳</span>
+          <div>
+            <h2>Step 2: Balance</h2>
+            <p class="card-sub">Complete your payment</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="balance-amount">Balance Amount (USD)</label>
+            <div class="input-group">
+              <span class="input-prefix">$</span>
+              <input type="number" id="balance-amount" placeholder="Enter amount" min="1" step="0.01">
+            </div>
+          </div>
+          <div id="balance-button-container" class="paypal-button-container"></div>
+          <div id="balance-result" class="result-message"></div>
+          <p class="small-text" style="margin-top: 12px; text-align: center;">
+            💡 Don't know the balance? Pay deposit first, we'll contact you.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Shipping Address (Appears after deposit paid) ====== -->
+    <div class="card shipping-card" id="shipping-card" style="display:none;">
+      <div class="card-header">
+        <span class="card-icon">📦</span>
+        <div>
+          <h2>Shipping Address</h2>
+          <p class="card-sub">Where should we send your order?</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="auto-fill-notice">
+          <span class="notice-icon">ℹ️</span>
+          <span>Address will be automatically confirmed from PayPal. Fill in if different.</span>
+        </div>
+        
+        <div class="shipping-form">
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="shipping-name">Full Name</label>
+              <input type="text" id="shipping-name" placeholder="John Doe">
+            </div>
+            <div class="form-group">
+              <label for="shipping-phone">Phone Number</label>
+              <input type="tel" id="shipping-phone" placeholder="+1 (555) 123-4567">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="shipping-email">Email (for tracking updates)</label>
+            <input type="email" id="shipping-email" placeholder="john@example.com" value="17880610526@163.com">
+          </div>
+          <div class="form-group">
+            <label for="shipping-address">Street Address</label>
+            <input type="text" id="shipping-address" placeholder="123 Main St, Apt 4B">
+          </div>
+          <div class="form-row three-col">
+            <div class="form-group">
+              <label for="shipping-city">City</label>
+              <input type="text" id="shipping-city" placeholder="Los Angeles">
+            </div>
+            <div class="form-group">
+              <label for="shipping-state">State</label>
+              <input type="text" id="shipping-state" placeholder="CA">
+            </div>
+            <div class="form-group">
+              <label for="shipping-zip">ZIP Code</label>
+              <input type="text" id="shipping-zip" placeholder="90001">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="shipping-country">Country</label>
+            <select id="shipping-country">
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="UK">United Kingdom</option>
+              <option value="AU">Australia</option>
+              <option value="DE">Germany</option>
+              <option value="FR">France</option>
+              <option value="JP">Japan</option>
+              <option value="KR">South Korea</option>
+              <option value="SG">Singapore</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Order Summary Card ====== -->
+    <div class="card summary-card" id="summary-card" style="display:none;">
+      <div class="card-header">
+        <span class="card-icon">📋</span>
+        <div>
+          <h2>Order Summary</h2>
+          <p class="card-sub">Order ID: <span id="summary-order-id" class="order-id"></span></p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="summary-row">
+          <span>Deposit:</span>
+          <span class="paid-amount">$45.00 ✓</span>
+        </div>
+        <div class="summary-row" id="balance-row" style="display:none;">
+          <span>Balance:</span>
+          <span id="summary-balance" class="due-amount">$0.00</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total:</span>
+          <span id="summary-total">$45.00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Address Confirmation Card ====== -->
+    <div class="card" id="address-confirm-card" style="display:none;">
+      <div class="card-header">
+        <span class="card-icon">📍</span>
+        <div>
+          <h2>Confirm Your Address</h2>
+          <p class="card-sub">Is this the correct shipping address?</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="address-preview" id="address-preview">
+          <!-- 地址内容会动态填充 -->
+        </div>
+        <div class="address-source">
+          <span id="address-source-badge"></span>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <label for="confirm-name">Name</label>
+          <input type="text" id="confirm-name" placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label for="confirm-phone">Phone</label>
+          <input type="tel" id="confirm-phone" placeholder="Phone number">
+        </div>
+        <div class="form-group">
+          <label for="confirm-address">Address</label>
+          <input type="text" id="confirm-address" placeholder="Street address">
+        </div>
+        <div class="form-row three-col">
+          <div class="form-group">
+            <label for="confirm-city">City</label>
+            <input type="text" id="confirm-city">
+          </div>
+          <div class="form-group">
+            <label for="confirm-state">State</label>
+            <input type="text" id="confirm-state">
+          </div>
+          <div class="form-group">
+            <label for="confirm-zip">ZIP</label>
+            <input type="text" id="confirm-zip">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirm-country">Country</label>
+          <select id="confirm-country">
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="UK">United Kingdom</option>
+            <option value="AU">Australia</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="JP">Japan</option>
+            <option value="KR">South Korea</option>
+            <option value="SG">Singapore</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="confirm-email">Email (for tracking)</label>
+          <input type="email" id="confirm-email">
+        </div>
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="confirmAddress()">✓ Confirm Address</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== Complete Card ====== -->
+    <div class="card success-card" id="complete-card" style="display:none;">
+      <div class="success-icon">🎉</div>
+      <h2>Payment Complete!</h2>
+      <div class="order-info-box">
+        <p><strong>Order ID:</strong> <span id="final-order-id"></span></p>
+        <p><strong>Deposit:</strong> <span id="final-deposit"></span></p>
+        <p><strong>Balance:</strong> <span id="final-balance"></span></p>
+        <p><strong>Total:</strong> <span id="final-total" class="total-amount"></span></p>
+        <p><strong>Status:</strong> <span class="status-badge status-complete">Fully Paid</span></p>
+      </div>
+      <div class="shipping-confirmed">
+        <h3>📦 Shipping To:</h3>
+        <p id="final-shipping-name"></p>
+        <p id="final-shipping-address"></p>
+        <p id="final-shipping-city"></p>
+        <p id="final-shipping-phone"></p>
+      </div>
+      <p>Thank you for your order! We'll process it shortly.</p>
+      <p class="small-text">Questions? Contact us on WhatsApp</p>
+    </div>
+
+  </main>
+
+  <!-- ====== Contact Section ====== -->
+  <div class="contact-card">
+    <div class="contact-title">📬 Need help? Contact us</div>
+    <div class="contact-options">
+      <a href="https://wa.me/8618550844309" target="_blank" class="contact-btn whatsapp-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp 1
+      </a>
+      <a href="https://wa.me/8617880610526" target="_blank" class="contact-btn whatsapp-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp 2
+      </a>
+      <a href="mailto:17880610526@163.com" class="contact-btn email-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Email Us
+      </a>
+    </div>
+  </div>
+
+  <!-- ====== Footer ====== -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 DIYCLUB &mdash; diyclub.fyi. All rights reserved.</p>
+      <p class="footer-contact">WhatsApp: +86 185 5084 4309 / +86 178 8061 0526 &nbsp;|&nbsp; Email: support@diyclub.fyi</p>
+    </div>
+  </footer>
+
+  <!-- ====== PayPal JS SDK ====== -->
+  <script>
+    // 从服务器获取配置（mode 由 Vercel 环境变量控制）
+    fetch('/api/config')
+      .then(res => res.json())
+      .then(CONFIG => {
+        const script = document.createElement('script');
+        script.src = `https://www.paypal.com/sdk/js?client-id=${CONFIG.clientId}&currency=${CONFIG.currency}&mode=${CONFIG.mode}`;
+        script.onload = () => renderButtons();
+        script.onerror = () => console.error('PayPal SDK failed to load');
+        document.body.appendChild(script);
+      })
+      .catch(err => {
+        console.error('Failed to load config:', err);
+      });
+  </script>
+
+  <script src="/app.js"></script>
+</body>
+</html>
