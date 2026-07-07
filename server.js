@@ -1,10 +1,24 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// ========== 静态文件（安全：只暴露白名单文件，避免泄露 .env / server.js）==========
+const PUBLIC_FILES = ['index.html', 'app.js', 'style.css', 'admin.html'];
+const publicDir = path.join(__dirname, 'public');
+const frontendDir = fs.existsSync(publicDir) ? publicDir : __dirname;
+
+app.use((req, res, next) => {
+  let rel = decodeURIComponent(req.path.replace(/^\/+/, ''));
+  if (rel === '') rel = 'index.html';
+  if (!PUBLIC_FILES.includes(rel)) return next();
+  const filePath = path.join(frontendDir, rel);
+  if (!fs.existsSync(filePath)) return next();
+  res.sendFile(filePath);
+});
 
 // ========== 配置 ==========
 const PORT = process.env.PORT || 3001;
